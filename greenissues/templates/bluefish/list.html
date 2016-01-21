@@ -1,0 +1,103 @@
+ {% extends "base.html" %}
+
+{% block list %}
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <span class="panel-title">
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Latest Change List <span class="glyphicon glyphicon-tint"></span>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Branch Name</th>
+                <th>From Build</th>
+                <th>To Build</th>
+                <th>Number of Changes</th>
+                <th>Actions</th>
+            <tr>
+        </thead>
+        <tbody>
+            {% for branch in latest_change_list %}
+            <tr>
+                <td>
+                <a href="{% url 'get_changeinfo' branch.id  %}">
+                 {{ forloop.counter }}
+                 </a>
+                 </td>
+                <td>{{ branch.branch_name }} </td>
+                <td>{{ branch.from_build }} </td>
+                <td>{{ branch.to_build }} </td>
+                <td><a href="{% url 'get_changeinfo' branch.id  %}">
+                {{ branch.changeinfo_set.count }}
+                </a></td>
+                <td><a role="button" href="{% url 'remove_branchinfo' branch.id %}">Remove</a> </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="panel-footer">
+        <button type="button" class="btn btn-lg btn-warning col-sm-offset-5 " data-toggle="modal" data-target="#myModal">
+          Add Change List
+        </button>
+
+        <!-- Button trigger modal -->
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog modal-md">
+               <form class="form-horizontal" action="{% url 'generate_changelist' %}">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Generate Change Information</h4>
+                  </div>
+                  <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="branchid">Branch:</label>
+                            <div class="col-sm-9">
+                              <select name="branch" id="branchid" class="form-control">
+                                <option>DAX63SE</option>
+                                <option>DAX63HF</option>
+                                <option>DAX62CD</option>
+                                <option>DAX62HF</option>
+                              </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-3" for="basebuildid">Baseline Build:</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="basebuild" id="basebuildid" placeholder="Baseline build number">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                          <label class="control-label col-sm-3" for="currentBuildID">Current Build:</label>
+                          <div class="col-sm-9">
+                          <input type="text" class="form-control" name="currentbuild" id="currentBuildID" placeholder="Current Build number">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <label class="radio-inline">
+                                  <input type="radio" name="layer" id="syp" value="SYP" checked> Application(SYP)
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="layer" id="kernel" value="Kernel"> Kernel
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="layer" id="frameworks" value="Frameworks"> Frameworks
+                                </label>
+                            </div>
+                        </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                  </div>
+                </div>
+                </form>
+              </div>
+            </div>
+    </div>
+</div>
+{% endblock %}
