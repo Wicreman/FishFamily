@@ -43,16 +43,16 @@ def precheck_generate(request):
     branch = request.POST.get('branch', None)
     baseline_build = request.POST.get('basebuild', None)
     current_build = request.POST.get('currentbuild', None)
-    print(branch)
-    print(baseline_build)
-    print(current_build)
 
     if(current_build is not None ) and (baseline_build is not None):
-        old_branch = BranchInfo.objects.get(branch_name=branch, from_build=baseline_build, to_build=current_build)
-        
-        if old_branch is not None:
-            print("check    "+     old_branch.layer)
-            return JsonResponse({'layer':old_branch.layer})
+        old_branchs = BranchInfo.objects.filter(branch_name=branch, from_build=baseline_build, to_build=current_build)
+        layer = '-'
+        if old_branchs is not None:
+            for old_branch in old_branchs:
+                layer = old_branch.layer + layer
+                
+            print("check    "+     layer)
+            return JsonResponse({'layer':layer})
             
     else:
         return JsonResponse({'waringinfo':"build is empty"})
@@ -81,6 +81,7 @@ def generate_changelist(request):
         # call fetch data
         data_path = 'F:\\'+branch+'-'+baseline_build+'-'+current_build+'\\now'
         fetchdata.getChange(data_path)
+        return JsonResponse({'passinfo':"Data Loaded"})
     # redirect to changelist page
     return  redirect("/bluefish/")
 

@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+﻿ {% extends "base.html" %}
 
 {% block list %}
 <div class="panel panel-success">
@@ -111,58 +111,60 @@
 
 {% block customizedJS %} 
 <script type="text/javascript">
-  $(document).ready(function(){
-    $("#generate").click(function(){
-      var branch = $("#branchid").val();
-      var base_build = $("#basebuildid").val();
-      var current_build = $("#currentBuildID").val();
-      var layer = $('input:radio[name=layer]:checked').val();
-      $.ajax({
-        type:"post",
-        url:"{% url 'generate_changelist' %}",
-        dataType:'json',
-        data: {'branch':branch, 'basebuild':base_build, 'currentbuild':current_build, 'layer':layer
-        },
-        beforeSend: function(){
-          $('#warning').html('<img src="/static/images/loading.gif" />')
-          $("#generate").attr("disabled", true);
-        }
-      });
-    });
+    $(document).ready(function () {
+        $("#generate").click(function () {
+            var branch = $("#branchid").val();
+            var base_build = $("#basebuildid").val();
+            var current_build = $("#currentBuildID").val();
+            var layer = $('input:radio[name=layer]:checked').val();
+            $.ajax({
+                type: "post",
+                url: "{% url 'generate_changelist' %}",
+                dataType: 'json',
+                data: { 'branch': branch, 'basebuild': base_build, 'currentbuild': current_build, 'layer': layer
+                },
+                beforeSend: function () {                  
+                    $('#warning').html('<img src="/static/images/loading.gif" />');
+                    $("#generate").attr("disabled", true);
+                },
+                success: function (data) {
+                    $('#myModal').modal('toggle')
+                    location.reload();
 
-      //验证数据在某个layer是否存在，如果存在disable当前layer，选择其他layer
-      $("#currentBuildID").change(function() {
-        var branch = $("#branchid").val();
-        var base_build = $("#basebuildid").val();
-        var current_build = $("#currentBuildID").val();
-        $.ajax({
-          url: "{% url 'precheck_generate' %}",
-          type:"post",
-          dataType: "json",
-          data: {branch:branch, basebuild:base_build, currentbuild:current_build},
-          success:function(data){
-              var layer = data.layer;
-              if (layer.indexOf("SYP") >=0 )
-              {
-                $('input:radio[value=SYP]').attr('disabled','disabled');
-              }
-
-              if (layer.indexOf("Kernel") >=0 )
-              {
-                $('input:radio[value=Kernel]').attr('disabled','disabled');
-              }
-              if (layer.indexOf("Frameworks") >=0 )
-              {
-                $('input:radio[value=Frameworks]').attr('disabled','disabled');
-              }
-              
-          },
-          error:function(xhr,errmsg,err){
-            $('#warning').html(errmsg)
-          }
-
+                }
+            });
         });
-      });  
-  });
+
+        //验证数据在某个layer是否存在，如果存在disable当前layer，选择其他layer
+        $("#currentBuildID").change(function () {
+            var branch = $("#branchid").val();
+            var base_build = $("#basebuildid").val();
+            var current_build = $("#currentBuildID").val();
+            $.ajax({
+                url: "{% url 'precheck_generate' %}",
+                type: "post",
+                dataType: "json",
+                data: { branch: branch, basebuild: base_build, currentbuild: current_build },
+                success: function (data) {
+                    var layer = data.layer;
+                    if (layer.indexOf("SYP") >= 0) {
+                        $('input:radio[value=SYP]').attr('disabled', 'disabled');
+                    }
+
+                    if (layer.indexOf("Kernel") >= 0) {
+                        $('input:radio[value=Kernel]').attr('disabled', 'disabled');
+                    }
+                    if (layer.indexOf("Frameworks") >= 0) {
+                        $('input:radio[value=Frameworks]').attr('disabled', 'disabled');
+                    }
+
+                },
+                error: function (xhr, errmsg, err) {
+                    $('#warning').html(errmsg)
+                }
+
+            });
+        });
+    });
 </script>
 {% endblock %}
