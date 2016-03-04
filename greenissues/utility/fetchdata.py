@@ -15,7 +15,7 @@ data_path = os.path.join(os.path.dirname(
 
 def dril_data(full_file_path):
     word = full_file_path.split(' - ')[0]
-    return(word[: word.index('#')])
+    return(word[: word.index('#')], word[word.index('#'):])
 
 
 def get_data(file_name):
@@ -26,19 +26,24 @@ def get_data(file_name):
         try:
             branch = BranchInfo.objects.get(branch_name=file_info[0], from_build=file_info[
                                             1], to_build=file_info[2])
+            if branch is not None:
+                branch.layer = layer.layer + '-'
         except:
             branch = BranchInfo.objects.create(
                 branch_name=file_info[0],
                 from_build=file_info[1],
-                to_build=file_info[2])
+                to_build=file_info[2],
+                layer=file_info[3])
         try:
             with open(file_name) as f:
                 for line in f.readlines():
-                    (file_path, file_name) = os.path.split(dril_data(line))
+                    (full_name, file_version)=dril_data(line)
+                    (file_path, file_name) = os.path.split(dril_data(full_name))
                     changelist.append(ChangeInfo(
                         branch=branch,
                         file_path=file_path,
-                        file_name=file_name))
+                        file_name=file_name,
+                        current_version=file_version))
                 ChangeInfo.objects.bulk_create(changelist)
 
 

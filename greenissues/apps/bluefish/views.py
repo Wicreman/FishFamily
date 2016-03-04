@@ -1,5 +1,5 @@
 from django.shortcuts import render_to_response,redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, InvalidPage, EmptyPage, PageNotAnInteger
 import subprocess
 from apps.bluefish.models import BranchInfo, ChangeInfo
@@ -37,13 +37,40 @@ def get_changeinfo(request, branch_id):
 
     return render_to_response("bluefish/detail.html", locals())
 
+
+def precheck_generate(request):
+    # get value of branch, build
+    branch = request.POST.get('branch', None)
+    baseline_build = request.POST.get('basebuild', None)
+    current_build = request.POST.get('currentbuild', None)
+    print(branch)
+    print(baseline_build)
+    print(current_build)
+
+    if(current_build is not None ) and (baseline_build is not None):
+        old_branch = BranchInfo.objects.get(branch_name=branch, from_build=baseline_build, to_build=current_build)
+        
+        if old_branch is not None:
+            print("check    "+     old_branch.layer)
+            return JsonResponse({'layer':old_branch.layer})
+            
+    else:
+        return JsonResponse({'waringinfo':"build is empty"})
+
+
+
+
+
+
+
 # Generate changelist by using brach, current build, baseline build
 def generate_changelist(request):
     # get value of branch, build
-    branch = request.GET.get('branch', None)
-    baseline_build = request.GET.get('basebuild', None)
-    current_build = request.GET.get('currentbuild', None)
-    layer = request.GET.get('layer', 'SYP')
+    branch = request.POST.get('branch', None)
+    baseline_build = request.POST.get('basebuild', None)
+    current_build = request.POST.get('currentbuild', None)
+    layer = request.POST.get('layer', 'SYP')
+
     # call sync cmd
     if(current_build is not None ) and (baseline_build is not None):
         startupinfo = subprocess.STARTUPINFO()

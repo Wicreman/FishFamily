@@ -26,6 +26,7 @@
             <tr>
                 <th>#</th>
                 <th>File Name</th>
+                <th>Version</th>
                 <th>SDV Path</th>
             </tr>
         </thead>
@@ -34,6 +35,7 @@
             <tr>
                 <td> {{ changes.start_index | add:forloop.counter0}}</td>
                 <td>{{ change.file_name }} </td>
+                <td>{{ change.current_version }} </td>
                 <td>sdv filelog "{{ change.file_path }}/{{ change.file_name }}" </td>
             </tr>
             {% endfor %}

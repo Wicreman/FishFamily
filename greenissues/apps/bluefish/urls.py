@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^$', views.get_branchinfo, name='get_branchinfo'),
     url(r'^fish/(?P<branch_id>[0-9]+)/$', views.get_changeinfo, name='get_changeinfo'),
     url(r'^fish/$', views.generate_changelist, name='generate_changelist'),
+    url(r'^check/$', views.precheck_generate, name='precheck_generate'),
     url(r'^remove/(?P<branch_id>[0-9]+)/$', views.remove_branchinfo, name='remove_branchinfo'),
 ]
