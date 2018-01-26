@@ -1,12 +1,12 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top:20px;
     padding-bottom: 20px;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
     margin-top: 30px;
 }
 
@@ -14,7 +14,7 @@
 input,
 select,
 textarea {
-    max-width: 280px;
+    max-width: 300px;
 }
 
 /* styles for validation helpers */

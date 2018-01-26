@@ -1,4 +1,4 @@
- {% extends "base.html" %}
+﻿ {% extends "base.html" %}
 
 {% block detail %}
 <div class="panel panel-success">
@@ -21,7 +21,7 @@
           <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search"></span> </button>
         </form>
     </div>
-     <table class="table table-striped table-hover table-bordered">
+     <table class="table table-striped table-hover .table-condensed table-bordered" style="table-layout：fixed">
         <thead>
             <tr>
                 <th>#</th>
@@ -36,7 +36,7 @@
                 <td> {{ changes.start_index | add:forloop.counter0}}</td>
                 <td>{{ change.file_name }} </td>
                 <td>{{ change.current_version }} </td>
-                <td>sdv filelog "{{ change.file_path }}/{{ change.file_name }}" </td>
+                <td style="word-wrap:break-word; word-break:break-all;">sdv filelog "{{ change.file_path }}/{{ change.file_name }}" </td>
             </tr>
             {% endfor %}
         </tbody>
