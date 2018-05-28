@@ -75,7 +75,7 @@ def generate_changelist(request):
     if(current_build is not None ) and (baseline_build is not None):
         startupinfo = subprocess.STARTUPINFO()
         startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        change_process = subprocess.Popen([r"E:\bluefish\bluefish\utility\syncbuild.cmd", \
+        change_process = subprocess.Popen([r"E:\FishFamily\fishs\utility\syncbuild.cmd", \
         branch, baseline_build, current_build, layer], stdout=subprocess.PIPE, startupinfo=startupinfo,shell=True)
         exitcode = change_process.wait()
         # call fetch data
