@@ -2,7 +2,7 @@ import os
 import sys
 import os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "greenissues.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bluefish.settings")
 import django
 django.setup()
 

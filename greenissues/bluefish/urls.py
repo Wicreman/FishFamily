@@ -1,4 +1,4 @@
-"""greenissues URL Configuration
+"""bluefish URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.9/topics/http/urls/
@@ -16,15 +16,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from apps.issues import urls as issues_urls
 from apps.bluefish import urls as bluefish_urls
-from apps.issues.admin import admin_site
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^myadmin/', admin_site.urls),
     url(r'^', include(bluefish_urls)),
-    url(r'^greenissues/', include(issues_urls)),
-    url(r'^bluefish/', include(bluefish_urls)),
-
+    url(r'^bluefish/', include(bluefish_urls))
 ]
