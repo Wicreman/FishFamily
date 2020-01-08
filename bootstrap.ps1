@@ -26,12 +26,12 @@ choco install python -y
 choco install git -y
 
 #Set python environment
-[Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\Python37")
+[Environment]::SetEnvironmentVariable("Path", "$env:Path;C:\Python38")
 
 # Initialize variables
 $enlistmentDrive = Get-EnlistmentDrive
 $fishDir = "${enlistmentDrive}:\FishFamily\fishs"
-$djangoIssuePath = "C:\Python37\lib\site-packages\django\db\backends\mysql"
+$djangoIssuePath = "C:\Python38\lib\site-packages\django\db\backends\mysql"
 
 # clone and install requirements
 Push-Location "${enlistmentDrive}:\"
