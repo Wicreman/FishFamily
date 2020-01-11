@@ -39,8 +39,8 @@ git clone https://github.com/Wicreman/FishFamily.git
 python -m pip install -U pip
 python -m pip install -r "${fishDir}\requirements.txt"
 
-Copy-Item -Path "${fishDir}\replace\base.py" -Destination  -Force $djangoIssuePath
-Copy-Item -Path "${fishDir}\replace\operations.py" -Destination $djangoIssuePath
+Copy-Item -Path "${fishDir}\replace\base.py" -Destination  $djangoIssuePath  -Force
+Copy-Item -Path "${fishDir}\replace\operations.py" -Destination $djangoIssuePath  -Force
 Pop-Location
 
 Push-Location $fishDir
