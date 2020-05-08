@@ -75,11 +75,11 @@ def generate_changelist(request):
     if(current_build is not None ) and (baseline_build is not None):
         startupinfo = subprocess.STARTUPINFO()
         startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        change_process = subprocess.Popen([r"H:\FishFamily\fishs\utility\syncbuild.cmd", \
+        change_process = subprocess.Popen([r"E:\FishFamily\fishs\utility\syncbuild.cmd", \
         branch, baseline_build, current_build, layer], stdout=subprocess.PIPE, startupinfo=startupinfo,shell=True)
         exitcode = change_process.wait()
         # call fetch data
-        data_path = 'H:\\'+branch+'-'+baseline_build+'-'+current_build+'\\now'
+        data_path = 'E:\\'+branch+'-'+baseline_build+'-'+current_build+'\\now'
         fetchdata.getChange(data_path)
         return JsonResponse({'passinfo':"Data Loaded"})
     # redirect to changelist page
